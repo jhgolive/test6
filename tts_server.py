@@ -1,16 +1,12 @@
-from fastapi import FastAPI, Query
-from fastapi.responses import StreamingResponse
-from TTS.api import TTS
-import io
+import requests
 
-app = FastAPI()
-
-# Hugging Face 모델 실시간 로드
-tts = TTS("tts_models/multilingual/multi-dataset/xtts_v2")
-
-@app.get("/tts")
-def generate_tts(text: str = Query(...)):
-    audio_fp = io.BytesIO()
-    tts.tts_to_file(text=text, file_path=audio_fp, speaker="alloy")  # alloy는 예시
-    audio_fp.seek(0)
-    return StreamingResponse(audio_fp, media_type="audio/mpeg")
+def tts_hf(text):
+    url = "https://api-inference.huggingface.co/models/coqui/tts-ko-ft-multilingual-v1"
+    headers = {"Authorization": f"Bearer {HF_TOKEN}"}
+    payload = {"inputs": text}
+    r = requests.post(url, headers=headers, json=payload)
+    if r.status_code == 200:
+        with open("tts.mp3", "wb") as f:
+            f.write(r.content)
+    else:
+        print("TTS 실패:", r.status_code, r.text)
