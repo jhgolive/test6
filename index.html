@@ -1,9 +1,8 @@
-
 <!DOCTYPE html>
 <html lang="ko">
 <head>
 <meta charset="utf-8">
-<title>GPS업로드 뉴스컨트롤</title>
+<title>GPS 업로드</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
@@ -93,7 +92,7 @@ button.active {
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
-import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-database.js";
+import { getDatabase, ref, set, update } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-database.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAQGtOEcxFxl9FV7NASLgxLDc23u2vzS_0",
@@ -336,9 +335,9 @@ window.onload = function() {
 };
 
 //---------------------------------뉴스컨트롤---------------------------------
-import { getDatabase, ref, set, update } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-database.js";
+//import { getDatabase, ref, set, update } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-database.js";
 
-const db = getDatabase();
+//const db = getDatabase();
 
 function setControl(data) {
   update(ref(db, "ttsControl"), data);
