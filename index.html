@@ -346,19 +346,19 @@ window.onload = function() {
 	let isPlaying = false;  // 재생 상태 기억
 	
 	const toggleBtn = document.getElementById("toggle-play-btn");
-	toggleBtn.onclick = () => {
+	addHoldEvent(toggleBtn, null, () => {
 	  isPlaying = !isPlaying;
 	  if (isPlaying) {
 	    setControl({ playing: true });
-	    toggleBtn.textContent = "‖"; // 일시정지 표시
+	    toggleBtn.textContent = "‖";
 	  } else {
 	    setControl({ playing: false });
-	    toggleBtn.textContent = "▶"; // 재생 표시
+	    toggleBtn.textContent = "▶";
 	  }
-	};
-	  
-	document.getElementById("rewind-btn").onclick = () => setControl({ seek: -5 });
+	});
 	
+	addHoldEvent(document.getElementById("rewind-btn"), null, () => setControl({ seek: -5 }));
+
 	// 볼륨 라벨 엘리먼트 가져오기
 	const volumeLabel = document.getElementById("volume-label");
 	
@@ -425,15 +425,15 @@ window.onload = function() {
 <hr>
 <div id="status-text">뉴스 컨트롤</div>
 <div class="btn-row">
-  <div class="btn-label">재생  뒤로</div>
-  <button id="toggle-play-btn">▶</button>
-  <button id="rewind-btn"><<</button>
-</div>
-
-<div class="btn-row">
   <div class="btn-label">볼륨 <span id="volume-label">0.5</span></div>
   <button id="vol-up">△</button>
   <button id="vol-down">▽</button>
+</div>
+	
+<div class="btn-row">
+  <div class="btn-label">재생<br>뒤로</div>
+  <button id="toggle-play-btn">▶</button>
+  <button id="rewind-btn"><<</button>
 </div>
 </body>
 </html>
