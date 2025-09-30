@@ -332,54 +332,54 @@ window.onload = function() {
   } else {
     alert("GPS를 지원하지 않는 기기입니다.");
   }
+
+	//---------------------------------뉴스컨트롤---------------------------------
+	//import { getDatabase, ref, set, update } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-database.js";
+	
+	//const db = getDatabase();
+	
+	function setControl(data) {
+	  update(ref(db, "ttsControl"), data);
+	}
+	
+	let currentVolume = 0.5;
+	let isPlaying = false;  // 재생 상태 기억
+	
+	const toggleBtn = document.getElementById("toggle-play-btn");
+	toggleBtn.onclick = () => {
+	  isPlaying = !isPlaying;
+	  if (isPlaying) {
+	    setControl({ playing: true });
+	    toggleBtn.textContent = "‖"; // 일시정지 표시
+	  } else {
+	    setControl({ playing: false });
+	    toggleBtn.textContent = "▶"; // 재생 표시
+	  }
+	};
+	  
+	document.getElementById("rewind-btn").onclick = () => setControl({ seek: -5 });
+	
+	// 볼륨 라벨 엘리먼트 가져오기
+	const volumeLabel = document.getElementById("volume-label");
+	
+	function updateVolumeLabel() {
+	  volumeLabel.textContent = currentVolume.toFixed(1);  // 0.0 형식
+	}
+	  
+	function changeVolume(delta) {
+	  currentVolume = Math.min(1, Math.max(0, currentVolume + delta));
+	  currentVolume = Math.round(currentVolume * 10) / 10;  // 소수점 1자리 반올림
+	  setControl({ volume: currentVolume });
+	  updateVolumeLabel();  // ★ 볼륨값 실시간 표시
+	}
+	
+	// ✅ 볼륨 버튼에 hold 이벤트 적용
+	addHoldEvent(document.getElementById("vol-up"), 0.1, changeVolume);
+	addHoldEvent(document.getElementById("vol-down"), -0.1, changeVolume);
+	
+	// 초기 라벨 표시
+	updateVolumeLabel();
 };
-
-//---------------------------------뉴스컨트롤---------------------------------
-//import { getDatabase, ref, set, update } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-database.js";
-
-//const db = getDatabase();
-
-function setControl(data) {
-  update(ref(db, "ttsControl"), data);
-}
-
-let currentVolume = 0.5;
-let isPlaying = false;  // 재생 상태 기억
-
-const toggleBtn = document.getElementById("toggle-play-btn");
-toggleBtn.onclick = () => {
-  isPlaying = !isPlaying;
-  if (isPlaying) {
-    setControl({ playing: true });
-    toggleBtn.textContent = "❚❚"; // 일시정지 표시
-  } else {
-    setControl({ playing: false });
-    toggleBtn.textContent = "▶"; // 재생 표시
-  }
-};
-  
-document.getElementById("rewind-btn").onclick = () => setControl({ seek: -5 });
-
-// 볼륨 라벨 엘리먼트 가져오기
-const volumeLabel = document.getElementById("volume-label");
-
-function updateVolumeLabel() {
-  volumeLabel.textContent = currentVolume.toFixed(1);  // 0.0 형식
-}
-  
-function changeVolume(delta) {
-  currentVolume = Math.min(1, Math.max(0, currentVolume + delta));
-  currentVolume = Math.round(currentVolume * 10) / 10;  // 소수점 1자리 반올림
-  setControl({ volume: currentVolume });
-  updateVolumeLabel();  // ★ 볼륨값 실시간 표시
-}
-
-// ✅ 볼륨 버튼에 hold 이벤트 적용
-addHoldEvent(document.getElementById("vol-up"), 0.1, changeVolume);
-addHoldEvent(document.getElementById("vol-down"), -0.1, changeVolume);
-
-// 초기 라벨 표시
-updateVolumeLabel();
 </script>
 </head>
 
@@ -425,7 +425,7 @@ updateVolumeLabel();
 <hr>
 <div id="status-text">뉴스 컨트롤</div>
 <div class="btn-row">
-  <div class="btn-label">재생 뒤로</div>
+  <div class="btn-label">재생  뒤로</div>
   <button id="toggle-play-btn">▶</button>
   <button id="rewind-btn"><<</button>
 </div>
