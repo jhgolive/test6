@@ -379,6 +379,9 @@ window.onload = function() {
 	
 	// 초기 라벨 표시
 	updateVolumeLabel();
+
+	// ✅ 초기 볼륨값 0.5를 Firebase에 업로드
+	setControl({ volume: currentVolume });
 };
 </script>
 </head>
