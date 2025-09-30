@@ -235,6 +235,8 @@ window.onload = function() {
 
   function changeOpacity(delta) {
     window.mapOpacity = Math.min(1, Math.max(0.1, window.mapOpacity + delta));
+	// 소수점 2자리 반올림
+  	const roundedOpacity = Math.round(window.mapOpacity * 100) / 100;
     updateDisplays();
     scheduleButtonUpload({ opacity: window.mapOpacity, borderRadius: window.borderRadius, mapLevel: window.mapLevel, mapSize: window.mapSize });
   }
