@@ -371,6 +371,10 @@ document.getElementById("vol-down").onclick = () => {
   currentVolume = Math.round(currentVolume * 10) / 10;  // ★ 소수점 한 자리 반올림
   setControl({ volume: currentVolume });
 };
+
+// ✅ 볼륨 버튼에 hold 이벤트 적용
+addHoldEvent(document.getElementById("vol-up"), 0.1, changeVolume);
+addHoldEvent(document.getElementById("vol-down"), -0.1, changeVolume);
 </script>
 </head>
 
@@ -416,7 +420,7 @@ document.getElementById("vol-down").onclick = () => {
 <hr>
 <div id="status-text">뉴스 컨트롤</div>
 <div class="btn-row">
-  <div class="btn-label">재생/뒤로</div>
+  <div class="btn-label">재생 뒤로</div>
   <button id="toggle-play-btn">▶</button>
   <button id="rewind-btn"><<</button>
 </div>
