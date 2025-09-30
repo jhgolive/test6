@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
 <meta charset="utf-8">
-<title>GPS 업로드</title>
+<title>GPS업로드 뉴스컨트롤</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
@@ -344,18 +344,31 @@ function setControl(data) {
 }
 
 let currentVolume = 0.5;
+let isPlaying = false;  // 재생 상태 기억
 
-document.getElementById("play-btn").onclick = () => setControl({ playing: true });
-document.getElementById("pause-btn").onclick = () => setControl({ playing: false });
+const toggleBtn = document.getElementById("toggle-play-btn");
+toggleBtn.onclick = () => {
+  isPlaying = !isPlaying;
+  if (isPlaying) {
+    setControl({ playing: true });
+    toggleBtn.textContent = "∥"; // 일시정지 표시
+  } else {
+    setControl({ playing: false });
+    toggleBtn.textContent = "▶"; // 재생 표시
+  }
+};
+  
 document.getElementById("rewind-btn").onclick = () => setControl({ seek: -5 });
 
 document.getElementById("vol-up").onclick = () => {
   currentVolume = Math.min(1, currentVolume + 0.1);
+  currentVolume = Math.round(currentVolume * 10) / 10;  // ★ 소수점 한 자리 반올림
   setControl({ volume: currentVolume });
 };
 
 document.getElementById("vol-down").onclick = () => {
   currentVolume = Math.max(0, currentVolume - 0.1);
+  currentVolume = Math.round(currentVolume * 10) / 10;  // ★ 소수점 한 자리 반올림
   setControl({ volume: currentVolume });
 };
 </script>
@@ -401,16 +414,11 @@ document.getElementById("vol-down").onclick = () => {
 </div>
 
 <hr>
-<h2>TTS 컨트롤</h2>
+<div id="status-text">뉴스 컨트롤</div>
 <div class="btn-row">
-  <div class="btn-label">재생</div>
-  <button id="play-btn">▶</button>
-  <button id="pause-btn">∥</button>
-</div>
-
-<div class="btn-row">
-  <div class="btn-label">되감기</div>
-  <button id="rewind-btn"><<5s</button>
+  <div class="btn-label">재생/뒤로</div>
+  <button id="toggle-play-btn">▶</button>
+  <button id="rewind-btn"><<</button>
 </div>
 
 <div class="btn-row">
